@@ -1,16 +1,26 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Creation, storage and inversion of matricies
+##      Functions:
+##          makeCacheMatrix()
+##          cacheSolve()
+##      Usage: 
+##          create new matrix cache (named MAT) from a square matrix (matrix) 
+##              MAT <- makeCacheMatrix()
+##              MAT$set(matrix)
+##          create and cache (retrieve, if already computed) the matrix inverse
+##              cacheSolve(MAT)
+##      Warning:
+##          multiple makeCacheMatrix objects will all alter the same variables
+##              so you can only use one at a time 
 
-## Creates an object that can contain a matrix and its inverse
-##      values:
-##          mat = the stored matrix
-##          inv = the inverted matrix
-##      methods:
-##          set -- store matrix
-##          get -- retrieve stored matrix
-##          set.inverse -- store the matrix inverse
-##          get.inverse -- retrieve the stored matrix inverse 
-
+# Creates an object that can contain a matrix and its inverse
+#      values:
+#          mat: the stored matrix
+#          inv: the inverted matrix
+#      methods:
+#          set -- stores matrix
+#          get -- retrieves stored matrix
+#          set.inverse -- stores the matrix inverse
+#          get.inverse -- retrieves the stored matrix inverse 
 makeCacheMatrix <- function(x = matrix()) {
     inv <- NULL
     set <- function(y) {
@@ -31,8 +41,8 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## Returns the inverse of a matrix stored in a 'makeCacheMatrix' object
-
+# Returns and stores (or retrieves) the inverse of a matrix stored in a
+#   'makeCacheMatrix' object
 cacheSolve <- function(x, ...) {
     if (!is.null(inv <<- x$get.inverse())) {
         message("retrieved cached inverse")
@@ -40,64 +50,5 @@ cacheSolve <- function(x, ...) {
     }
     
     x$set.inverse(solve(x$get(), ...))
-    x$get.inverse()# -> output
-    #output
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### examples ####
-
-makeVector <- function(x = numeric()) {
-    m <- NULL
-    set <- function(y) {
-        x <<- y
-        m <<- NULL
-    }
-    get <- function() x
-    setmean <- function(mean) m <<- mean
-    getmean <- function() m
-    list(set = set, get = get,
-         setmean = setmean,
-         getmean = getmean)
-}
-
-cachemean <- function(x, ...) {
-    m <- x$getmean()
-    if(!is.null(m)) {
-        message("getting cached data")
-        return(m)
-    }
-    data <- x$get()
-    m <- mean(data, ...)
-    x$setmean(m)
-    m
-}
-
-
-##### play
-
-makeVector2 <- function(x = numeric()) {
-    m <- NULL
-    set <- function(y) {
-        x <<- y
-        m <<- NULL
-    }
-    get <- function() x
-    setmean <- function() m <<- mean(x)
-    getmean <- function() m
-    list(set = set, get = get,
-         setmean = setmean,
-         getmean = getmean)
+    x$get.inverse()
 }
