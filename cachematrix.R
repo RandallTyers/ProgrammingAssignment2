@@ -7,9 +7,6 @@
 ##              MAT <- makeCacheMatrix(matrix)
 ##          create and cache (retrieve, if already computed) the matrix inverse
 ##              cacheSolve(MAT)
-##      Warning:
-##          assumes that the matrix entered is invertable
-
 
 # Creates an object that can contain a matrix and its inverse
 #      values:
