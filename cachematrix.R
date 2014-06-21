@@ -4,51 +4,48 @@
 ##          cacheSolve()
 ##      Usage: 
 ##          create new matrix cache (named MAT) from a square matrix (matrix) 
-##              MAT <- makeCacheMatrix()
-##              MAT$set(matrix)
+##              MAT <- makeCacheMatrix(matrix)
 ##          create and cache (retrieve, if already computed) the matrix inverse
 ##              cacheSolve(MAT)
-##      Warning:
-##          multiple makeCacheMatrix objects will all alter the same variables
-##              so you can only use one at a time 
 
 # Creates an object that can contain a matrix and its inverse
 #      values:
 #          mat: the stored matrix
 #          inv: the inverted matrix
-#      methods:
-#          set -- stores matrix
-#          get -- retrieves stored matrix
-#          set.inverse -- stores the matrix inverse
-#          get.inverse -- retrieves the stored matrix inverse 
-makeCacheMatrix <- function(x = matrix()) {
+#      method calls:
+#          set -- stores matrix (calls set_mat)
+#          get -- retrieves stored matrix (calls get_mat)
+#          set_inverse -- stores the matrix inverse (calls set_inv)
+#          get_inverse -- retrieves the stored matrix inverse (calls get_inv)
+makeCacheMatrix <- function(mat = matrix()) {
     inv <- NULL
-    set <- function(y) {
+    
+    set_mat <- function(y) {
         mat <<- y
         inv <<- NULL
     }
     
-    get <- function() mat
+    get_mat <- function() mat
     
-    set.inverse <- function(z) { inv <<- z }
+    set_inv <- function(z) { inv <<- z }
     
-    get.inverse <- function() inv
+    get_inv <- function() inv
     
-    list(set = set,
-         get = get,
-         set.inverse = set.inverse,
-         get.inverse = get.inverse)
+    list(set = set_mat,
+         get = get_mat,
+         set_inverse = set_inv,
+         get_inverse = get_inv)
 }
 
 
 # Returns and stores (or retrieves) the inverse of a matrix stored in a
 #   'makeCacheMatrix' object
 cacheSolve <- function(x, ...) {
-    if (!is.null(inv <<- x$get.inverse())) {
+    if (!is.null(inv <- x$get_inverse())) {
         message("retrieved cached inverse")
         return(inv)
     }
     
-    x$set.inverse(solve(x$get(), ...))
-    x$get.inverse()
+    x$set_inverse(solve(x$get(), ...))
+    x$get_inverse()
 }
